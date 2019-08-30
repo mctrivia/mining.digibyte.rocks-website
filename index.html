@@ -1,0 +1,61 @@
+<html>
+	<head>	
+		<title>DigiByte Rocks Mining Pool</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<link rel="stylesheet" type="text/css" href="css/chartist.min.css">
+	</head>
+	<body>
+		<h1>mining.digibyte.rocks Stats Page</h1>
+		<h3>Site updates Automatically at 1AM UTC(<span id="local"></span> Local)</h3>
+		<h3>Payouts happen daily at Midnight UTC when balance exceeds 100DGB(10DGB on Sundays)</h3>
+		<h3>Official Mining.DigiByte.Rocks Assets ID: <a href="https://digiexplorer.info/asset/Ua4MneDXdFP8eNEiN1fzJE8AjfuJ5RU3bBuRvq/db6ad785ffa3f3fd586bc46c3c9318e8782482a11438c41f769401ca67c4c40c/0">Ua4MneDXdFP8eNEiN1fzJE8AjfuJ5RU3bBuRvq</a></h3> 
+		<h3>Operating Costs:</h3>
+		Electrical expenses are covered by digibyte.rocks as long as profit is 4x electrical expenses.  Below this threshold some of the expenses are taken out of mined coins.<br>
+		Electrical costs are discounted in cooler months based on past 5 years gas bills.
+		<div id="discount">
+			<div class="discount_row"><div class="discount_header">Month</div><div class="discount_header">Discount Amount(W)</div></div>
+			<div class="discount_row"><div class="discount_month">January</div><div class="discount_value">666</div></div>
+			<div class="discount_row"><div class="discount_month">February</div><div class="discount_value">670</div></div>
+			<div class="discount_row"><div class="discount_month">March</div><div class="discount_value">668</div></div>
+			<div class="discount_row"><div class="discount_month">April</div><div class="discount_value">511</div></div>
+			<div class="discount_row"><div class="discount_month">May</div><div class="discount_value">220</div></div>
+			<div class="discount_row"><div class="discount_month">June</div><div class="discount_value">114</div></div>
+			<div class="discount_row"><div class="discount_month">July</div><div class="discount_value">0</div></div>
+			<div class="discount_row"><div class="discount_month">August</div><div class="discount_value">0</div></div>
+			<div class="discount_row"><div class="discount_month">September</div><div class="discount_value">0</div></div>
+			<div class="discount_row"><div class="discount_month">October</div><div class="discount_value">82</div></div>
+			<div class="discount_row"><div class="discount_month">November</div><div class="discount_value">345</div></div>
+			<div class="discount_row"><div class="discount_month">December</div><div class="discount_value">368</div></div>
+		</div>
+		
+	
+		<h3>Total Mined: <span id="total"></span></h3>
+	
+		<h1>Charts:</h1>
+	
+		<h3>Pool Profit in DGB/Asset/Day</h3>
+		<div id="profit" decimals="3"></div>
+	
+		<h3>DGB Price in sats</h3>
+		<div id="valueSat" decimals="0"></div>
+	
+		<h3>DGB Price in Canadian Dollars</h3>
+		<div id="valueCad" decimals="4"></div>
+	
+		<h3>Percentage of costs covered by digibyte.rocks</h3>
+		<div id="expenseCovered" decimals="0"></div>
+	
+		<h1>Asset Holders</h1>
+		<div id="assets"></div>
+		
+		
+				
+		<div id="shadow"></div>
+		<div id="loading" class="window">Loading</div>
+		<div id="history" class="window"></div>
+		
+		<script src="js/chartist.min.js"></script>
+		<script src="js/xmr.min.js"></script>
+		<script src="js/main.js"></script>
+	</body>
+</html>
