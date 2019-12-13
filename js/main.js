@@ -148,6 +148,7 @@
 			filterMaxAssets=document.getElementById("filters_maxAssets").value;
 			filterMinBalance=document.getElementById("filters_minBalance").value;
 			filterMaxBalance=document.getElementById("filters_maxBalance").value;
+			console.log(filterAddressType,filterMinAssets,filterMaxAssets,filterMinBalance,filterMaxBalance);
 			assetHolderBuilder();
 			return true;
 		}
@@ -168,8 +169,8 @@
 			if (line["count"]<filterMinAssets) continue;
 			if (line["count"]>filterMaxAssets) continue;
 			
-			if (line["balance"]<filterMinBalance) continue;
-			if (line["balance"]>filterMaxBalance) continue;
+			if (parseFloat(line["balance"])<filterMinBalance) continue;
+			if (parseFloat(line["balance"])>filterMaxBalance) continue;
 			
 			if (filterAddressType=="bech32" && line.address.substr(0,4)!="dgb1") continue;
 			if (filterAddressType=="legacy" && line.address.substr(0,1)!="D") continue;
