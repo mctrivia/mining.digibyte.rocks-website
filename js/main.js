@@ -155,7 +155,12 @@
 	var assetHolderBuilder=function() {
 		
 		var html='<div class="assets_row"><div class="asset_header assets_address">Address<br>';
-		html+='Filter: <select id="filters_address" class="filter"><option value="none">'+filterAddressType+'</option><option value="legacy">legacy</option><option value="p2sh-segwit">p2sh-segwit</option><option value="bech32">bech32</option></select></div><div class="asset_header assets_count">Assets<br>';
+		html+='Filter: <select id="filters_address" class="filter">';
+		var typeOptions=["-----","legacy","p2sh-segwit","bech32"];
+		for (var type of typeOptions) {
+			html+='<option value="'+type+'"'+(type==filterAddressType?' selected':'')+'>'+type+'</option>';
+		}
+		html+='</select></div><div class="asset_header assets_count">Assets<br>';
 		html+='Filter: <input type="number" class="filter filter_minmax" id="filters_minAssets" value="'+filterMinAssets+'"> to <input type="number" class="filter filter_minmax" id="filters_maxAssets" value="'+filterMaxAssets+'"></div><div class="asset_header assets_balance">Balance<br>';
 		html+='Filter: <input type="number" class="filter filter_minmax" id="filters_minBalance" value="'+filterMinBalance+'"> to <input type="number" class="filter filter_minmax" id="filters_maxBalance" value="'+filterMaxBalance+'"></div></div>';
 		for(var line of addressData) {
