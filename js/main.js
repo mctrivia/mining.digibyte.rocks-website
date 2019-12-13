@@ -22,9 +22,10 @@
 	
 	//handle address click events
 	var addressHistory={};
+	var addressData={};
 	var domQueryAssets = document.querySelector('#assets'); // the container for the variable content
 	domQueryAssets.addEventListener('click', function(event) {
-	  var closest = event.target.closest('.assets_row');
+	  var closest = event.target.closest('.asset_history_click');
 	  if (closest && domQueryAssets.contains(closest)) {
 		var address=closest.getAttribute('address');
 		var history=addressHistory[address];
@@ -131,6 +132,50 @@
 	}
 	
 
+	//asset holder table builder
+	var filterMinAssets=0;
+	var filterMaxAssets=99999;
+	var filterMinBalance=0;
+	var filterMaxBalance=999;
+	var filterAddressType="-----";
+	
+	var domQueryFilter = document.querySelector('body'); // the container for the variable content
+	domQueryAssets.addEventListener('change', function(event) {
+		var closest = event.target.closest('.filter');
+		if (closest && domQueryAssets.contains(closest)) {
+			filterAddressType=document.getElementById("filters_address").value;
+			filterMinAssets=document.getElementById("filters_minAssets").value;
+			filterMaxAssets=document.getElementById("filters_maxAssets").value;
+			filterMinBalance=document.getElementById("filters_minBalance").value;
+			filterMaxBalance=document.getElementById("filters_maxBalance").value;
+			assetHolderBuilder();
+			return true;
+		}
+	});
+	var assetHolderBuilder=function() {
+		
+		var html='<div class="assets_row"><div class="asset_header assets_address">Address<br>';
+		html+='Filter: <select id="filters_address" class="filter"><option value="none">'+filterAddressType+'</option><option value="legacy">legacy</option><option value="p2sh-segwit">p2sh-segwit</option><option value="bech32">bech32</option></select></div><div class="asset_header assets_count">Assets<br>';
+		html+='Filter: <input type="number" class="filter filter_minmax" id="filters_minAssets" value="'+filterMinAssets+'"> to <input type="number" class="filter filter_minmax" id="filters_maxAssets" value="'+filterMaxAssets+'"></div><div class="asset_header assets_balance">Balance<br>';
+		html+='Filter: <input type="number" class="filter filter_minmax" id="filters_minBalance" value="'+filterMinBalance+'"> to <input type="number" class="filter filter_minmax" id="filters_maxBalance" value="'+filterMaxBalance+'"></div></div>';
+		for(var line of addressData) {
+			
+			if (line["count"]<filterMinAssets) continue;
+			if (line["count"]>filterMaxAssets) continue;
+			
+			if (line["balance"]<filterMinBalance) continue;
+			if (line["balance"]>filterMaxBalance) continue;
+			
+			if (filterAddressType=="bech32" && line.address.substr(0,4)!="dgb1") continue;
+			if (filterAddressType=="legacy" && line.address.substr(0,1)!="D") continue;
+			if (filterAddressType=="p2sh-segwit" && line.address.substr(0,1)!="S") continue;
+			
+			html+='<div class="assets_row asset_history_click" address="'+line["address"]+'"><div class="assets_address">'+line["address"]+'</div><div class="assets_count">'+line["count"]+'</div><div class="assets_balance">'+line["balance"]+'</div></div>';
+		}		
+		document.getElementById("assets").innerHTML=html;
+	}
+
+
 	//load and reload script
 	var date=0;
 	var reload=function() {
@@ -141,12 +186,11 @@
 		
 			//load asset list
 			xmr.getJSON('data/asset.json?d='+date).then(function(data) {
-				var html='<div class="assets_row"><div class="asset_header assets_address">Address</div><div class="asset_header assets_count">Assets</div><div class="asset_header assets_balance">Balance</div></div>';
 				for(var line of data) {
 					addressHistory[line["address"]]=line["history"];
-					html+='<div class="assets_row" address="'+line["address"]+'"><div class="assets_address">'+line["address"]+'</div><div class="assets_count">'+line["count"]+'</div><div class="assets_balance">'+line["balance"]+'</div></div>';
-				}		
-				document.getElementById("assets").innerHTML=html;
+				}
+				addressData=data;
+				assetHolderBuilder();
 				finishJob();
 			});
 			
@@ -163,10 +207,9 @@
 				
 				//calculate total
 				var total=0;
-				for (var profit of chartData['profit']) {
-					total+=profit;
+				for (var index in chartData['profit']) {
+					total+=chartData['profit'][index]*chartData['assets'][index];
 				}
-				total*=3600;
 				document.getElementById('total').innerHTML=total;
 				
 				//mark as finished loading

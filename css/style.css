@@ -74,6 +74,9 @@
 
 
 /* Asset holder table layout and coloring */
+.filter_minmax {
+	width: 60px;
+}
 #assets {
 	display: table;
 	width: 100%;
